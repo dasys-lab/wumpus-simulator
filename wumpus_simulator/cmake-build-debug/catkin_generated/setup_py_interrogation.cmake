@@ -1,6 +1,0 @@
-set(wumpus_simulator_SETUP_PY_VERSION "0.0.0")
-set(wumpus_simulator_SETUP_PY_SCRIPTS "")
-set(wumpus_simulator_SETUP_PY_PACKAGES "wumpus_simulator")
-set(wumpus_simulator_SETUP_PY_PACKAGE_DIRS "src/wumpus_simulator")
-set(wumpus_simulator_SETUP_PY_MODULES "")
-set(wumpus_simulator_SETUP_PY_MODULE_DIRS "")

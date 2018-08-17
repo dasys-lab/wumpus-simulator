@@ -1,2 +1,0 @@
-set(wumpus_simulator_MESSAGE_FILES "/home/emmeda/Research/dev/ttbws/src/cnc-turtlebots/wumpus_simulator/msg/InitialPoseRequest.msg;/home/emmeda/Research/dev/ttbws/src/cnc-turtlebots/wumpus_simulator/msg/ActionRequest.msg;/home/emmeda/Research/dev/ttbws/src/cnc-turtlebots/wumpus_simulator/msg/ActionResponse.msg;/home/emmeda/Research/dev/ttbws/src/cnc-turtlebots/wumpus_simulator/msg/InitialPoseResponse.msg")
-set(wumpus_simulator_SERVICE_FILES "")
