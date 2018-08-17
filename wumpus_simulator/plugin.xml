@@ -1,0 +1,16 @@
+<library path="lib/libwumpus_simulator">
+  <class name="wumpus_simulator/WumpusSimulator" type="wumpus_simulator::WumpusSimulator" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      A Simulator for the Wumpus World.
+    </description>
+    <qtgui>
+      <group>
+        <label>Robot Tools</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to robot tools.</statustip>
+      </group>
+      <label>WumpusSimulator</label>
+      <statustip> A Simulator for the Wumpus World.</statustip>
+    </qtgui>
+  </class>
+</library>

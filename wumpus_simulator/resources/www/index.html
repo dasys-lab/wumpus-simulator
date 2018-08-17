@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>WumpusSimulator</title>
+
+        <link type="text/css" rel="stylesheet" href="lib/css/materialize.min.css"  media="screen,projection"/>
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="section">
+                <div class="infoBar">
+                    <div class="row center">
+                        <div class="col s2">
+                            <p id="arrow">Arrow: </p>
+                        </div>
+                        <div class="col s2">
+                            <p id="wumpus">Wumpus: </p>
+                        </div>
+                        <div class="col s2">
+                            <p id="traps">Traps: </p>
+                        </div>
+                        <div class="col s2">
+                            <p id="size">Size: </p>
+                        </div>
+                        <div class="col s2">
+                            <a class="dropdown-button btn" href="#" data-activates="settingsDropdown">Settings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="row center">
+                    <div class="board" id="board"></div>
+                </div>
+            </div>
+        </div>
+
+        <ul id="settingsDropdown" class="dropdown-content">
+            <li><a href="#newWorldModal">New</a></li>
+            <li><a id="save" href="#">Save</a></li>
+            <li><a id="load" href="#">Load</a></li>
+        </ul>
+
+        <div id="newWorldModal" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="playgroundSize" type="number" class="validate">
+                        <label for="playgroundSize">Playground Size</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="trapNumbers" type="number" class="validate">
+                        <label for="trapNumbers">Traps</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="wumpusNumbers" type="number" class="validate">
+                        <label for="wumpusNumbers">Wumpus</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <p>
+                        <input id="arrowAgent" type="checkbox">
+                        <label for="arrowAgent">Arrow (Agent)</label>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-fixed-footer">
+                <div class="row">
+                    <div class="col s4">
+                        <a id="randomValuesBtn" class="btn">Random</a>
+                    </div>
+                    <div class="col s3">
+                        <a id="settingsCancel" class="btn">Cancel</a>
+                    </div>
+                    <div class="col s3">
+                        <a id="settingsOk" class="btn">OK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="lib/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/js/materialize.min.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+    </body>
+</html>

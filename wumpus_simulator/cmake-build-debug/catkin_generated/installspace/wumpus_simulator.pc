@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: wumpus_simulator
+Description: Description of wumpus_simulator
+Version: 0.0.0
+Cflags: -I/usr/local/include -I/usr/include/x86_64-linux-gnu/qt5/ -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/lib/x86_64-linux-gnu/qt5//mkspecs/linux-g++-64 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebKitWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebKit
+Libs: -L/usr/local/lib -lwumpus_simulator
+Requires: qt_gui rqt_gui rqt_gui_cpp message_runtime

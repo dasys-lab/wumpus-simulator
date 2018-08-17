@@ -1,0 +1,52 @@
+body html {
+
+    height: 100%;
+
+}
+
+.btn {
+
+    background-color: black;
+
+}
+
+.board {
+
+    display: inline-block;
+    border: 1px solid black;
+
+}
+
+.ground {
+
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+
+}
+
+.firstImage {
+    z-index: 1;
+    position: relative;
+}
+
+.secondImage {
+    z-index: 2;
+    position: absolute;
+}
+
+.thirdImage {
+    z-index: 3;
+    position: absolute;
+}
+
+.fourthImage {
+    z-index: 4;
+    position: absolute;
+}
+
+.fifthImage {
+    z-index: 5;
+    position: absolute;
+}
