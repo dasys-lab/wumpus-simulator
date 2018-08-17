@@ -4,9 +4,12 @@
   <version>0.0.0</version>
   <description>The wumpus_simulator package</description>
 
-  <maintainer email="lab-user@todo.todo">lab-user</maintainer>
-
-
+  <maintainer email="jakob@vs.uni-kassel.de">Stefan Jakob</maintainer>
+  <author>Stefan Jakob</author>
+  <author>Olga Groh</author>
+  <author>Sebastian Copei</author>
+  <author>Kevin Lichtenberg</author>
+  
   <license>MIT</license>
   
   <buildtool_depend>catkin</buildtool_depend>
