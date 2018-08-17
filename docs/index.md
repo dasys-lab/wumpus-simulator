@@ -1,2 +1,0 @@
-#Wumpus Simulator
-Explain something :)
