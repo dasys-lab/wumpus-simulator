@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Scribbler Documentation - a code documentation page template for codrops</title>
+    <title>Wumpus Simulator Documentation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="scribbler-global.css">
@@ -17,7 +17,7 @@
       <h1 class="logo">Scribbler <span class="logo__thin">Doc</span></h1>
       <ul class="menu">
         <div class="menu__item toggle"><span></span></div>
-        <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
+        <li class="menu__item"><a href="https://github.com/carpe-noctem-cassel/wumpus-simulator/" target="_blank" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
         <li class="menu__item"><a href="index.html" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
       </ul>
     </nav>
@@ -25,75 +25,205 @@
       <aside class="doc__nav">
         <ul>
           <li class="js-btn selected">Get Started</li>
-          <li class="js-btn">Configuration</li>
-          <li class="js-btn">Keybindings</li>
-          <li class="js-btn">Issues</li>
+          <li class="js-btn">Dependencies</li>
+          <li class="js-btn">Communication</li>
+          <li class="js-btn">Actions and Perceptions</li>
+          <li class="js-btn">Example</li>
         </ul>
       </aside>
       <article class="doc__content">
         <section class="js-section">
           <h3 class="section__title">Get Started</h3>
-          <p>Learn how to configure settings for Scribbler, such as your syntax highlighting preference and the default saving folder location.</p>
-          <h3 class="section__title">Installation</h3>
-          <div class="code__block code__block--notabs">
-            <pre class="code code--block">
-              <code>
-                $ scribbler  ——config
-                  {
-                    “encryption”: true, 
-                    “highlighting“: true,
-                    “prettyTable”: false,
-                    “font”: [“Helvetica”, “sans-serif”],
-                    “folder”: “~/Desktop“
-                  }
-              </code>
-            </pre>
-          </div>
+          <p>Learn how to use the Wumpus Simulator.</p>
         </section>
         <section class="js-section">
-          <h3 class="section__title">Configuration</h3>
-          <p>Learn how to configure settings for Scribbler, such as your syntax highlighting preference and the default saving folder location.</p>
+          <h3 class="section__title">Dependencies</h3>
+          <a href="http://wiki.ros.org/" target="_blank" class="link link--light">Robot Operating System - ROS</a>
+        </section>
+        <section class="js-section">
+          <h3 class="section__title">Communication</h3>
+            <table id="customers">
+            <tr>
+              <th>Topic</th>
+              <th>Message</th>
+              <th>Descrition</th>
+            </tr>
+            <tr>
+              <td>/wumpus_simulator/SpawnAgentRequest</td>
+              <td>wumpus_simulator/InitialPostRequest</td>
+              <td>Register an agent and request statring pose from the Simulator.</td>
+            </tr>
+            <tr>
+              <td>/wumpus_simulator/SpawnAgentResponse</td>
+              <td>wumpus_simulator/InitialPostResponse</td>
+              <td>Response from the simulator. Contains the x and y coordinates of the initial position, the field size, Heading, and the possession of an Arrow.</td>
+            </tr>
+            <tr>
+              <td>/wumpus_simulator/ActionRequest</td>
+              <td>wumpus_simulator/ActionRequest</td>
+              <td>Requests the execution of an Action.</td>
+            </tr>
+            <tr>
+              <td>/wumpus_simulator/ActionResponse</td>
+              <td>wumpus_simulator/ActionResponse</td>
+              <td>Anwser for a ActionRequest. Contains new position, heading, and a set of Perceptions.</td>
+            </tr>
+            </table>
+          <p>Lorem ipsum dolor sit amet, scripta tibique indoctum sit ei, mel inani aeterno ad. Facer oratio ex per. At eam movet verear, in sea brute patrioque disputando, usu nonumes torquatos an. Ex his quaerendum intellegebat, ut vel homero accusam. Eum at debet tibique, in vocibus temporibus adversarium sed. Porro verear eu vix, ne usu tation vituperata.</p>
+          <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates suavitate vituperatoribus.</p>
+        </section>          
+        <section class="js-section">
+          <h3 class="section__title">Actions, Headings of Wumpus and Agent, and Perceptions</h3>
+          <p>Bindings for Actions, Headings of Wumpus and Agent, and Perceptions</p>
           <table id="customers">
             <tr>
-              <th>Options</th>
+              <th>Action</th>
+              <th>Descrition</th>
               <th>Value</th>
-              <th>Default</th>
             </tr>
             <tr>
-              <td>encryption</td>
-              <td>encrypt all notes before saving. If turned on, it requires password to open the file.</td>
-              <td>false</td>
+              <td>move</td>
+              <td>Move the Agent in direction of its heading.</td>
+              <td>0</td>
             </tr>
             <tr>
-              <td>highlighting</td>
-              <td>Show syntax highlight on markdown text.</td>
-              <td>true</td>
+              <td>turnLeft</td>
+              <td>Rotate the Agent anticlockwise.</td>
+              <td>1</td>
             </tr>
             <tr>
-              <td>prettyTable</td>
-              <td>Render table with Scribbler’s pretty table style.</td>
-              <td>true</td>
+              <td>turnRight</td>
+              <td>Rotate the Agent clockwise.</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>shoot</td>
+              <td>Shoot the arrow in the direction of the agent's heading.</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>pickUpGold</td>
+              <td>Pick up the Gold.</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>leave</td>
+              <td>Leave the Dungeon.</td>
+              <td>5</td>
             </tr>
           </table>
-          <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates suavitate vituperatoribus.</p>
+            <table id="customers">
+            <tr>
+              <th>Heading</th>
+              <th>Descrition</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>up</td>
+              <td>Agent looks and Wumpus moves north.</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>left</td>
+              <td>Agent looks and Wumpus moves west.</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>down</td>
+              <td>Agent looks and Wumpus moves south.</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>right</td>
+              <td>Agent looks and Wumpus moves east.</td>
+              <td>3</td>
+            </tr>
+          </table>
+            <table id="customers">
+            <tr>
+              <th>Perception</th>
+              <th>Descrition</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>bump</td>
+              <td>Agent or Wumpus ran into a wall.</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>scream</td>
+              <td>A Wumpus was shot.</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>silence</td>
+              <td>An Arrow missed any Wumpus.</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>goldFound</td>
+              <td>The Agent successfully picked up the Gold.</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>exited</td>
+              <td>The Agent successfully left the Dungeon.</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>notAllowed</td>
+              <td>Recieved when the Action is not allowed, e.g., shooting without an Arrow.</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>drafty</td>
+              <td>A trap is placed to an adjacent field.</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>stinky</td>
+              <td>A Wumpus is placed on an adjacent field.</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>shiny</td>
+              <td>The Gold is on this field.</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>dead</td>
+              <td>The Agent or Wumpus has be killed.</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td>otherAgent</td>
+              <td>Trying to step on a other Agent's field.</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>killedAgent</td>
+              <td>T Wumpus killed an Agent.</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>yourTurn</td>
+              <td>Your Agent / Wumpus is allowed to interact with the simulator.</td>
+              <td>12</td>
+            </tr>
+          </table>
           <hr />
         </section>
         <section class="js-section">
-          <h3 class="section__title">Keybindings</h3>
+          <h3 class="section__title">Example</h3>
           <p>Lorem ipsum dolor sit amet, scripta tibique indoctum sit ei, mel inani aeterno ad. Facer oratio ex per. At eam movet verear, in sea brute patrioque disputando, usu nonumes torquatos an. Ex his quaerendum intellegebat, ut vel homero accusam. Eum at debet tibique, in vocibus temporibus adversarium sed. Porro verear eu vix, ne usu tation vituperata.</p>
           <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates suavitate vituperatoribus.</p>
           <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates suavitate vituperatoribus.</p>
           <hr />
-        </section>
-        <section class="js-section">
-          <h3 class="section__title">Issues</h3>
-          <p>Lorem ipsum dolor sit amet, scripta tibique indoctum sit ei, mel inani aeterno ad. Facer oratio ex per. At eam movet verear, in sea brute patrioque disputando, usu nonumes torquatos an. Ex his quaerendum intellegebat, ut vel homero accusam. Eum at debet tibique, in vocibus temporibus adversarium sed. Porro verear eu vix, ne usu tation vituperata.</p>
-          <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates suavitate vituperatoribus.</p>
         </section>
       </article>
     </div>
 
-    <footer class="footer">Scribbler is a free HTML template created exclusively for <a href="https://tympanus.net/codrops/" target="_blank" class="link link--light">Codrops</a>.</footer>
+    <footer class="footer">The Wumpus Simulator is a free AI testbed provided by the <a href="http://www.vs.uni-kassel.de" target="_blank" class="link link--light">Distributed Systems Research Group</a>.</footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="scribbler.js"></script>
