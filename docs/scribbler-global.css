@@ -110,8 +110,8 @@ hr {
 /* buttons */
 .button--primary {
   padding: 10px 22px;
-  background-color: var(--accent-color);
-  color: white;
+  background-color: var(--light-gray-color);
+  color: black;
   position: relative;
   text-decoration: none;
   border: 0;

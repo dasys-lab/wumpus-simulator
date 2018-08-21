@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Scribbler - a codding landing page template for codrops</title>
+      <title>Wumpus Simulator - Evaluating and teaching AI the nice way!</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
@@ -13,135 +13,78 @@
       <link rel="author" href="humans.txt">
   </head>
   <body>
-    <nav>
-      <div class="logo"></div>
-      <ul class="menu">
-        <div class="menu__item toggle"><span></span></div>
-        <li class="menu__item"><a href="doc.html" class="link link--dark"><i class="fa fa-book"></i> Documentation</a></li>
-        <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
-      </ul>
-    </nav>
     <div class="hero">
-      <h1 class="hero__title">Scribbler</h1>
-      <p class="hero__description">Take your markdown notes in terminal</p>
+      <h1 class="hero__title">Wumpus Simulator</h1>
+      <p class="hero__description">Evaluating and teaching AI the nice way!</p>
     </div>
     <div class="hero__terminal">
-      <pre>
-        <!-- Place your demo code here -->
-        <code class="shell-session demo">hyperyolo ~ $ </code>
-      </pre>
+      <img src="img/Playground2.png" alt="Example Wumpus World" height="600"/>
     </div>
     <div class="wrapper">
-      <div class="installation">
-        <h3 class="section__title">Installation</h3>
-        <div class="tab__container">
-          <ul class="tab__menu">
-            <li class="tab active" data-tab="mac">mac</li>
-            <li class="tab" data-tab="linux">linux</li>
-            <li class="tab" data-tab="win">win</li>
-          </ul>
-          <pre class="nohighlight code">
-            <code class="tab__pane active mac">$  brew install scribbler</code>
-            <code class="tab__pane linux">$  apt-get install scribbler</code>
-            <code class="tab__pane win">$  gem install scribbler</code>
-          </pre>
-        </div>
-      </div>
       <div class="feature">
         <div class="feature__item">
-          <h3 class="section__title">Fast & Light</h3>
-          <p>Start writing your notes immediately in any terminal! No more time wasted on navigating and opening your text editor.</p>
-        </div>
-        <div class="feature__item">
-          <h3 class="section__title">File Syncing</h3>
-          <p>Save your file in Dropbox then you can access to it from anywhere.</p>
-        </div>
-        <div class="feature__item">
-          <h3 class="section__title">Secure</h3>
-          <p>Encrypt your notes optionally. No one can get to your secrets! </p>
+          <h3 class="section__title">Interface</h3>
+          <p>Interacting with the simulator is done through two simple ROS-Topics.</p>
         </div>
         <div class="feature__item">
           <h3 class="section__title">Configuration</h3>
-          <p>Maintain all your settings in a single <span class="code code--inline">config.json</span> file. Never need to redo the setting every single time jotting down a note.</p>
+          <p>Customizable field size, number of traps, number of Wumpus, and availability of arrows for agents.</p>
         </div>
         <div class="feature__item">
-          <h3 class="section__title">Highlightings</h3>
-          <p>For better readability, scribbler has a clean, beautiful color scheme allow you to scan files fast.</p>
+          <h3 class="section__title">Generation</h3>
+          <p>Generate random fields according to given parameters.</p>
         </div>
         <div class="feature__item">
-          <h3 class="section__title">Keybindings</h3>
-          <p>You can expect common keybindings for scribbler. Customize <span class="code code--inline">bindings.json</span> for your own liking! </p>
+          <h3 class="section__title">Multi-Agent Support</h3>
+          <p>Its possible to spawn several agents, in case you have competing or cooperating AIs.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Intelligent Wumpus</h3>
+          <p>Be the Wumpus and hunt your agents with your own AI! A controlled wumpus can move and make the challenge for your AI even more complex.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Save and Load Worlds</h3>
+          <p>You found an interesting situation for your AI to solve? Just store the situation including agent positions and challenge your AI over and over again.</p>
+        </div>
+          <div class="feature__item">
+          <h3 class="section__title">Cite Us!</h3>
+          <p>If you use our simulator, we would be very happy to be cited in your work! Ideally, you use the following bibtex entry:</p>
+          <pre>
+@software{JakobOpferEtAl.2018
+    author={Jakob;Stefan and Opfer;Stephan and Groh;Olga and Copei;Sebastian and Lichtenberg;Kevin}, 
+    title={Wumpus Simulator},
+    howpublished={Available on \url{www.github.com/carpe-noctem-cassel/wumpus-simulator}}, 
+    version={0.1.0}
+    date={2018-17-08}
+}
+        </pre>
         </div>
       </div>
-      <div class="keybinding">
-        <ul class="keybinding__detail">
-          <h3 class="keybinding__title">Default Keybindings</h3>
-          <li>Quit without saving <span class="keybinding__label">Ctrl+C</span></li>
-          <li>Save <span class="keybinding__label">Cmd+S</span></li>
-          <li>Save and Quit <span class="keybinding__label">Ctrl+D</span></li>
-          <li>Undo <span class="keybinding__label">Cmd+Z</span></li>
-        </ul>
-        <ul class="keybinding__detail">
-          <h3 class="keybinding__title">Markdown Keybindings</h3>
-          <li><span class="keybinding__label">Ctrl+A</span> Insert Link Markdown</li>
-          <li><span class="keybinding__label">Ctrl+I</span> Insert Image Markdown</li>
-          <li><span class="keybinding__label">Ctrl+V</span> Insert YouTube Video</li>
-          <li><span class="keybinding__label">Ctrl+T</span> Insert Table</li>
-        </ul>
-      </div>
-      <div class="callout">
-        <p>Read our documentation for advanced keybindings and customization</p>
-        <a href="doc.html" class="button--primary">Documentation</a>
-      </div>
+    </div>
+    <div class="callout">
+        <p>
+            <a href="https://github.com/carpe-noctem-cassel/wumpus-simulator/" target="_blank" class="button--primary">GitHub</a>
+            <a href="doc.html" class="button--primary">Documentation</a>
+        </p>
     </div>
     <div class="changelog">
       <div class="wrapper">
         <h3 class="section__title">Changelog</h3>
         <div class="changelog__item">
           <div class="changelog__meta">
-            <h4 class="changelog__title">v0.7</h4>
-            <small class="changelog__date">10/12/2017</small>
+            <h4 class="changelog__title">v0.1.0</h4>
+            <small class="changelog__date">08/17/2018</small>
           </div>
           <div class="changelog__detail">
             <ul>
-              <li>Improving the writing workflow with better key bindings</li>
-              <li>Design updates</li>
-              <li>SSL Verification for web hooks</li>
-              <li>Render Emoji</li>
+              <li>First usable version</li>
+              <li>Published under the MIT License</li>
             </ul>
           </div>
-        </div>
-        <div class="changelog__item">
-          <div class="changelog__meta">
-            <h4 class="changelog__title">v0.6</h4>
-            <small class="changelog__date">7/30/2017</small>
-          </div>
-          <div class="changelog__detail">
-            <ul>
-              <li>Adding Unicode support</li>
-              <li>Basic text highlighting</li>
-              <li>Fresh Design</li>
-            </ul>
-          </div>
-        </div>
-        <div class="changelog__item">
-          <div class="changelog__meta">
-            <h4 class="changelog__title">v0.5</h4>
-            <small class="changelog__date">5/10/2017</small>
-          </div>
-          <div class="changelog__detail">
-            <ul>
-              <li>Save default md file in new folders</li>
-              <li>Ability to quick search on existing notes</li>
-            </ul>
-          </div>
-        </div>
-        <div class="changelog__callout">
-          <a href="#" class="button--secondary">Checkout Full Log</a>
         </div>
       </div>
     </div>
-    <footer class="footer">Scribbler is a free HTML template created exclusively for <a href="https://tympanus.net/codrops/" target="_blank" class="link link--light">Codrops</a>.</footer>
+    <footer class="footer">The Wumpus Simulator is a free AI testbed provided by the <a href="http://www.vs.uni-kassel.de" target="_blank" class="link link--light">Distributed Systems Research Group</a>.</footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="scribbler.js"></script>
