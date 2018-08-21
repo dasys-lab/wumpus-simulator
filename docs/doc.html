@@ -59,7 +59,7 @@
               </code>
             </pre>
           </div>
-            <p>This Simulator is started by using the following commandline:</p>
+            <p>This simulator is started by using the following command line:</p>
             <div class="code__block code__block--notabs">
             <pre class="code code--block">
               <code>
@@ -86,7 +86,7 @@
               </code>
             </pre>
           </div>
-            <p>In this case, agent 1 wants to move in direction of its heading. The simulator will respond to this message with the new position and perceptions on the new field. The following table summs up the available topics and messages:</p>
+            <p>In this case, agent 1 wants to move in direction of its heading. The simulator will respond with the new position and perceptions on the new field. The following table summs up the available topics and messages:</p>
             <table id="customers">
             <tr>
               <th>Topic</th>
@@ -96,12 +96,12 @@
             <tr>
               <td>/wumpus_simulator/SpawnAgentRequest</td>
               <td>wumpus_simulator/InitialPostRequest</td>
-              <td>Register an agent and request starting pose from the simulator.</td>
+              <td>Register an agent and request starting position from the simulator.</td>
             </tr>
             <tr>
               <td>/wumpus_simulator/SpawnAgentResponse</td>
               <td>wumpus_simulator/InitialPostResponse</td>
-              <td>Response from the simulator. Contains the x and y coordinates of the initial position, the field size, heading, and the possession of an arrow.</td>
+              <td>Answer for an InitialPostRequest. Contains the x and y coordinates of the initial position, the field size, heading, and the possession of an arrow.</td>
             </tr>
             <tr>
               <td>/wumpus_simulator/ActionRequest</td>
@@ -116,8 +116,8 @@
             </table>
         </section>          
         <section class="js-section">
-          <h3 class="section__title">Actions, headings of wumpus and agent, and perceptions</h3>
-          <p>Bindings for actions, headings of wumpus and agent, and perceptions</p>
+          <h3 class="section__title">Actions, headings of agent and wumpus, and perceptions</h3>
+          <p>Bindings for actions, headings of agent and wumpus, and perceptions</p>
           <table id="customers">
             <tr>
               <th>Action</th>
@@ -126,7 +126,7 @@
             </tr>
             <tr>
               <td>move</td>
-              <td>Move the agent in direction of its heading.</td>
+              <td>Move the agent / wumpus in direction of its heading.</td>
               <td>0</td>
             </tr>
             <tr>
@@ -270,7 +270,7 @@
         <img src="img/settings.png" alt="Settings" height="600"/>
         <p>A menu will pop up allowing to adjust the playground size, the nubmer of traps and wumpus and the possession of an arrow. Furthermore, these options can be filled randomly by clicking the Random button.</p>
         <img src="img/SettingsMenu.png" alt="Settings Menu" height="600"/>
-        <p>This results in a playground consisting of 10x10 fields, 3 traps, and 4 wumpus. Additionally, the agents have an arrow.</p>
+        <p>This results in a playground consisting of 10x10 fields, 3 traps, and 4 wumpus. Additionally, the each agent has an arrow.</p>
         <img src="img/ExamplePlayground.png" alt="Settings Menu" height="600"/>
         <p>The simulator is now ready to be used. Hence, an InitialPoseRequest has to be send on the topic /wumpus_simulator/SpawnAgentRequest to the simulator.</p>
         <div class="code__block code__block--notabs">
@@ -294,7 +294,7 @@
             </pre>
         </div>
         <img src="img/AgentSpawned.png" alt="Settings Menu" height="600"/>
-        <p>Since there is only one agent, it is its turn. This is indicated by an ActionResponse with the perception <i>yourTurn</i> (12).</p>
+        <p>Since there is only one agent, it is the agent's turn. This is indicated by an ActionResponse with the perception <i>yourTurn</i> (12).</p>
         <div class="code__block code__block--notabs">
             <pre class="code code--block">
               <code>
