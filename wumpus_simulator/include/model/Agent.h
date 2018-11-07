@@ -24,34 +24,33 @@
 
 #pragma once
 
-#include "WumpusEnums.h"
 #include "Movable.h"
+#include "WumpusEnums.h"
 
 #include <memory>
 
 namespace wumpus_simulator
 {
-	/**
-	* Agent interacting with the simulator
-	*/
-	class Agent : public Movable
-	{
-	public:
-		Agent(std::shared_ptr<GroundTile> tile);
-		virtual ~Agent();
+/**
+ * Agent interacting with the simulator
+ */
+class Agent : public Movable
+{
+public:
+    Agent(std::shared_ptr<GroundTile> tile);
+    virtual ~Agent();
 
-		bool hasArrow();
-		void setArrow(bool value);
-		WumpusEnums::heading getHeading();
-		void setHeading(WumpusEnums::heading heading);
-		void setHasGold(bool value);
-		bool getHasGold();
+    bool hasArrow();
+    void setArrow(bool value);
+    WumpusEnums::heading getHeading();
+    void setHeading(WumpusEnums::heading heading);
+    void setHasGold(bool value);
+    bool getHasGold();
 
-
-	private:
-		bool arrow;
-		bool hasGold;
-		WumpusEnums::heading heading;
-	};
+private:
+    bool arrow;
+    bool hasGold;
+    WumpusEnums::heading heading;
+};
 
 } /* namespace wumpus_simulator */

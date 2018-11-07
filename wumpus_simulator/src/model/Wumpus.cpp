@@ -28,13 +28,12 @@
 namespace wumpus_simulator
 {
 
-	Wumpus::Wumpus(std::shared_ptr<GroundTile> tile) {
-		this->tile = tile;
-		type = "wumpus";
-	}
+Wumpus::Wumpus(std::shared_ptr<GroundTile> tile)
+{
+    this->tile = tile;
+    type = "wumpus";
+}
 
-	Wumpus::~Wumpus()
-	{
-	}
+Wumpus::~Wumpus() {}
 
 } /* namespace wumpus_simulator */

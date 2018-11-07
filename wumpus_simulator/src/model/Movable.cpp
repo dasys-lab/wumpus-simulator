@@ -27,39 +27,37 @@
 namespace wumpus_simulator
 {
 
-	Movable::Movable()
-	{
-		this->id = 0;
-		type = "unknown";
-	}
+Movable::Movable()
+{
+    this->id = 0;
+    type = "unknown";
+}
 
-	Movable::~Movable()
-	{
-	}
+Movable::~Movable() {}
 
-	QString Movable::getType()
-	{
-		return type;
-	}
+QString Movable::getType()
+{
+    return type;
+}
 
-	std::shared_ptr<GroundTile> Movable::getTile()
-	{
-		return tile;
-	}
+std::shared_ptr<GroundTile> Movable::getTile()
+{
+    return tile;
+}
 
-	void Movable::setTile(std::shared_ptr<GroundTile> tile)
-	{
-		this->tile = tile;
-	}
+void Movable::setTile(std::shared_ptr<GroundTile> tile)
+{
+    this->tile = tile;
+}
 
-	int Movable::getId()
-	{
-		return id;
-	}
+int Movable::getId()
+{
+    return id;
+}
 
-	void Movable::setId(int id)
-	{
-		this->id = id;
-	}
+void Movable::setId(int id)
+{
+    this->id = id;
+}
 
 } /* namespace wumpus_simulator */
