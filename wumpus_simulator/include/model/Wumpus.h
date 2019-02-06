@@ -30,16 +30,16 @@
 
 namespace wumpus_simulator
 {
-	class GroundTile;
+class GroundTile;
 
-	/**
-	 * Class representing the wumpus. Can be controlled from outside the simulator
-	 */
-	class Wumpus : public Movable
-	{
-	public:
-		Wumpus(std::shared_ptr<GroundTile> tile);
-		virtual ~Wumpus();
-	};
+/**
+ * Class representing the wumpus. Can be controlled from outside the simulator
+ */
+class Wumpus : public Movable
+{
+public:
+    Wumpus(std::shared_ptr<GroundTile> tile);
+    virtual ~Wumpus();
+};
 
 } /* namespace wumpus_simulator */

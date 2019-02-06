@@ -32,24 +32,24 @@
 
 namespace wumpus_simulator
 {
-	/**
-	 * Interface for every object that can be moved from outside the simulator
-	 */
-	class Movable
-	{
-	public:
-		Movable();
-		virtual ~Movable();
-		QString getType();
-		std::shared_ptr<GroundTile> getTile();
-		void setTile(std::shared_ptr<GroundTile> tile);
-		int getId();
-		void setId(int id);
+/**
+ * Interface for every object that can be moved from outside the simulator
+ */
+class Movable
+{
+public:
+    Movable();
+    virtual ~Movable();
+    QString getType();
+    std::shared_ptr<GroundTile> getTile();
+    void setTile(std::shared_ptr<GroundTile> tile);
+    int getId();
+    void setId(int id);
 
-	protected:
-		int id;
-		std::shared_ptr<GroundTile> tile;
-		QString type;
-	};
+protected:
+    int id;
+    std::shared_ptr<GroundTile> tile;
+    QString type;
+};
 
 } /* namespace wumpus_simulator */
