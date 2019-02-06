@@ -510,6 +510,7 @@ namespace wumpus_simulator
 		if (agent->getHasGold() && agent->getTile()->getStartAgentID() == agent->getId())
 		{
 			response.responses.push_back(WumpusEnums::responses::exited);
+			this->turns.erase(std::find(this->turns.begin(), this->turns.end(), agent->getId()));
 			this->model->exit(agent);
 		}
 		else
