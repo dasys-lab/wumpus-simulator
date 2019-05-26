@@ -49,12 +49,29 @@ set(wumpuswidget_SRCS
 )
 
 set(wumpuswidget_HDRS
-  include/wumpus_simulator/WumpusSimulator.h 
+  include/wumpus_simulator/WumpusSimulator.h
+
 )
+set(wsim_SRCS
+		src/model/Agent.cpp
+		src/model/GroundTile.cpp
+		src/model/Model.cpp
+		src/model/Wumpus.cpp
+		src/model/Movable.cpp
+		)
+set(wsim_HDRS
+		include/model/WumpusEnums.h
+		include/model/Agent.h
+		include/model/GroundTile.h
+		include/model/Model.h
+		include/model/Wumpus.h
+		include/model/Movable.h)
 
 set(wumpuswidget_UIS
   ui/mainwindow_webview.ui
 )
+
+
 
 set(wumpus_simulator_INCLUDE_DIRECTORIES
     include
@@ -77,9 +94,12 @@ file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} resources/*.qrc)
 
 catkin_package(
   INCLUDE_DIRS ${wumpus_simulator_INCLUDE_DIRECTORIES}
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES ${PROJECT_NAME} ${PROJECT_NAME}_model
   CATKIN_DEPENDS qt_gui rqt_gui rqt_gui_cpp message_runtime
 )
+
+add_library(${PROJECT_NAME}_model ${wsim_HDRS} ${wsim_SRCS})
+target_link_libraries(${PROJECT_NAME}_model ${catkin_LIBRARIES} ${Qt5Core_location})
 
 QT5_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
 QT5_WRAP_CPP(wumpus_MOCS ${wumpuswidget_HDRS})
@@ -91,6 +111,9 @@ set(CMAKE_CURRENT_BINARY_DIR "${_cmake_current_binary_dir}")
 
 add_library(${PROJECT_NAME} ${wumpuswidget_SRCS} ${wumpus_MOCS} ${wumpus_UIS_H} ${QT_RESOURCES_CPP})
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${Qt5Widgets_location} ${Qt5Core_location} ${Qt5Gui_location} ${Qt5Network_location} ${Qt5WebKitWidgets_location})
+
+
+
 
 add_dependencies(${PROJECT_NAME} wumpus_simulator_generate_messages_cpp)
 

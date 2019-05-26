@@ -370,8 +370,10 @@ namespace wumpus_simulator
 				std::cout << "Abort! Cannot find empty tile to place agent on." << std::endl;
 				break;
 			}
-			int randx = rand() % (this->model->getPlayGroundSize() - 1);
-			int randy = rand() % (this->model->getPlayGroundSize() - 1);
+			int randx = rand() % (this->model->getPlayGroundSize());
+			int randy = rand() % (this->model->getPlayGroundSize());
+			//random heading
+			int randz = rand() % 4;
 
 			auto tile = this->model->getPlayGround().at(randx).at(randy);
 			if (!tile->getTrap() && !tile->hasMovable() && !tile->getGold() && !tile->getBreeze() && !tile->getStench()
@@ -380,7 +382,8 @@ namespace wumpus_simulator
 				auto agent = std::make_shared<Agent>(this->model->getPlayGround().at(randx).at(randy));
 				agent->setId(agentId);
 				agent->setArrow(hasArrow);
-				agent->setHeading(WumpusEnums::heading::up);
+				//agent->setHeading(WumpusEnums::heading::up);
+				agent->setHeading(static_cast<WumpusEnums::heading>(randz));
 				this->model->getPlayGround().at(randx).at(randy)->setMovable(agent);
 				this->model->movables.push_back(agent);
 				tile->setStartAgentID(agentId);
@@ -510,6 +513,7 @@ namespace wumpus_simulator
 		if (agent->getHasGold() && agent->getTile()->getStartAgentID() == agent->getId())
 		{
 			response.responses.push_back(WumpusEnums::responses::exited);
+            this->turns.erase(std::find(this->turns.begin(), this->turns.end(), agent->getId()));
 			this->model->exit(agent);
 		}
 		else
