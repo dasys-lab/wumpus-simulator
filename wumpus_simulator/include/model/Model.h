@@ -118,8 +118,8 @@ public:
      */
     void setStench(int x, int y);
     /**
-* Sets breeze at given coordinates
-*/
+     * Sets breeze at given coordinates
+     */
     void setBreeze(int x, int y);
 
 private:

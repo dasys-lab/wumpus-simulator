@@ -27,49 +27,45 @@
 namespace wumpus_simulator
 {
 
-	Agent::Agent(std::shared_ptr<GroundTile> tile)
-	{
-		this->tile = tile;
-		type = "agent";
-		arrow = false;
-		hasGold = false;
-		this->heading = WumpusEnums::heading::up;
-	}
+Agent::Agent(std::shared_ptr<GroundTile> tile)
+{
+    this->tile = tile;
+    type = "agent";
+    arrow = false;
+    hasGold = false;
+    this->heading = WumpusEnums::heading::up;
+}
 
-	Agent::~Agent()
-	{
-	}
+Agent::~Agent() {}
 
-	bool Agent::hasArrow()
-	{
-		return arrow;
-	}
+bool Agent::hasArrow()
+{
+    return arrow;
+}
 
-	void Agent::setArrow(bool value)
-	{
-		this->arrow = value;
-	}
+void Agent::setArrow(bool value)
+{
+    this->arrow = value;
+}
 
-	WumpusEnums::heading Agent::getHeading()
-	{
-		return heading;
-	}
+WumpusEnums::heading Agent::getHeading()
+{
+    return heading;
+}
 
-	void Agent::setHeading(WumpusEnums::heading heading)
-	{
-		this->heading = heading;
-	}
+void Agent::setHeading(WumpusEnums::heading heading)
+{
+    this->heading = heading;
+}
 
-	void wumpus_simulator::Agent::setHasGold(bool value)
-	{
-		this->hasGold = value;
-	}
+void wumpus_simulator::Agent::setHasGold(bool value)
+{
+    this->hasGold = value;
+}
 
-	bool wumpus_simulator::Agent::getHasGold()
-	{
-		return hasGold;
-	}
-
+bool wumpus_simulator::Agent::getHasGold()
+{
+    return hasGold;
+}
 
 } /* namespace wumpus_simulator */
-
