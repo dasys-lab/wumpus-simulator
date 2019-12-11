@@ -15,49 +15,58 @@ int main(int argc, char* argv[])
 
     // program desired model
     wumpus_simulator::Model* model = wumpus_simulator::Model::get();
-    int playgroundSize = 4;
+    int playgroundSize = 6;
     // create dummy model
-    model->init(true, 0, 3, playgroundSize);
+    model->init(true, 4, 1, playgroundSize);
     // remove randomly placed gold
     for (int i = 0; i < model->getPlayGroundSize(); ++i) {
         for (int j = 0; j < model->getPlayGroundSize(); ++j) {
             auto t = model->getPlayGround().at(i).at(j);
             t->setGold(false);
-            t->setMovable(nullptr);
+            auto movables = t->getMovables();
+            for(auto mov :movables) {
+                t->removeMovable(mov); //FIXME not going to work
+                std::cout << "WWFGen main: fix removal of movables " << std::endl;
+            }
+//            t->setMovable(nullptr);
+            t->setTrap(false);
             t->setTrap(false);
             t->setBreeze(false);
+            t->setStench(false);
         }
     }
 
     //GOLD
     std::shared_ptr<wumpus_simulator::GroundTile> tile;
-    tile = model->getTile(0, 1);
+    tile = model->getTile(3, 2);
     tile->setGold(true);
 
 //    //WUMPI
-//    std::shared_ptr<wumpus_simulator::Wumpus> wumpus;
-//    tile = model->getTile(1, 0);
-//    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
-//    tile->setMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
-//    model->setStench(1,0);
+    std::shared_ptr<wumpus_simulator::Wumpus> wumpus;
+    tile = model->getTile(1, 0);
+    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
+    tile->addMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
+    model->setStench(1,0);
 //
-//    tile = model->getTile(0, 1);
-//    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
-//    tile->setMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
-//    model->setStench(0,1);
+    tile = model->getTile(2, 3);
+    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
+    tile->addMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
+    model->setStench(2,3);
+
+    tile = model->getTile(4, 3);
+    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
+    tile->addMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
+    model->setStench(4,3);
+
+    tile = model->getTile(4, 4);
+    wumpus = std::make_shared<wumpus_simulator::Wumpus>(tile);
+    tile->addMovable(std::dynamic_pointer_cast<wumpus_simulator::Movable>(wumpus));
+    model->setStench(4,4);
 
     //TRAPS
-    tile = model->getTile(1, 0);
+    tile = model->getTile(3, 3);
     tile->setTrap(true);
-    model->setBreeze(1,0);
-
-    tile = model->getTile(0, 0);
-    tile->setTrap(true);
-    model->setBreeze(0,0);
-
-    tile = model->getTile(0, 2);
-    tile->setTrap(true);
-    model->setBreeze(0,2);
+    model->setBreeze(3,3);
 
     generator::FileHandler fh(model);
     fh.extractFilename(false);

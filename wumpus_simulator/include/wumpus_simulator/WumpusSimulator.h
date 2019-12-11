@@ -24,221 +24,259 @@
 
 #pragma once
 
-#include <wumpus_simulator/InitialPoseRequest.h>
-#include <wumpus_simulator/ActionResponse.h>
-#include <wumpus_simulator/InitialPoseResponse.h>
-#include <wumpus_simulator/ActionRequest.h>
 #include <ui_mainwindow_webview.h>
+#include <wumpus_simulator/ActionRequest.h>
+#include <wumpus_simulator/ActionResponse.h>
+#include <wumpus_simulator/InitialPoseRequest.h>
+#include <wumpus_simulator/InitialPoseResponse.h>
+#include <wumpus_simulator/MultiInitialPoseRequest.h>
+#include <wumpus_simulator/MultiInitialPoseResponse.h>
+#include <wumpus_simulator/LoadWorldRequest.h>
 
-#include <QtGui>
-#include <QWidget>
 #include <QDialog>
 #include <QTimer>
-#include <QtWebKitWidgets/qwebview.h>
+#include <QWidget>
+#include <QtGui>
 #include <QtNetwork/qnetworkreply.h>
+#include <QtWebKitWidgets/qwebview.h>
 
-#include <ros/ros.h>
 #include <ros/macros.h>
+#include <ros/ros.h>
 #include <rqt_gui_cpp/plugin.h>
 
 #include <iostream>
+#include <mutex>
 
 namespace wumpus_simulator
 {
 
-	class Model;
-	class GroundTile;
-	class Agent;
-	class Wumpus;
+class Model;
+class GroundTile;
+class Agent;
+class Wumpus;
 
-	/**
-	 * Handles interactions with agent and wumpus.
-	 */
-	class WumpusSimulator : public rqt_gui_cpp::Plugin
-	{
-	Q_OBJECT
+/**
+ * Handles interactions with agent and wumpus.
+ */
+class WumpusSimulator : public rqt_gui_cpp::Plugin
+{
+    Q_OBJECT
 
-	public:
-		WumpusSimulator();
-		~WumpusSimulator();
+public:
+    WumpusSimulator();
+    ~WumpusSimulator();
 
-		// Methods required by rqt plugin
-		virtual void initPlugin(qt_gui_cpp::PluginContext& context);
-		virtual void shutdownPlugin();
-		virtual void saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const;
-		virtual void restoreSettings(const qt_gui_cpp::Settings& plugin_settings,
-										const qt_gui_cpp::Settings& instance_settings);
+    // Methods required by rqt plugin
+    virtual void initPlugin(qt_gui_cpp::PluginContext& context);
+    virtual void shutdownPlugin();
+    virtual void saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const;
+    virtual void restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings);
 
-		/**
-		 * Initializes world
-		 * @param arrow bool agent has arrow?
-		 * @param size string fieldsize nxn
-		 * @param traps string number of traps
-		 * @param wumpus string number of wumpus
-		 */
-		Q_INVOKABLE void createWorld(bool arrow, int wumpus, int traps, int size);
+    /**
+     * Initializes world
+     * @param arrow bool agent has arrow?
+     * @param size string fieldsize nxn
+     * @param traps string number of traps
+     * @param wumpus string number of wumpus
+     */
+    Q_INVOKABLE void createWorld(bool arrow, int wumpus, int traps, int size);
 
-		/**
-		 * Save current model from JavaScript in Json
-		 */
-		Q_INVOKABLE	void saveWorld();
+    /**
+     * Save current model from JavaScript in Json
+     */
+    Q_INVOKABLE void saveWorld();
 
-		/**
-		 * Loads a wwf file from JavaScript
-		 */
-		Q_INVOKABLE	void loadWorld();
+    /**
+     * Loads a wwf file from JavaScript
+     */
+    Q_INVOKABLE void loadWorld(const std::string& worldPath);
 
-		Model* getModel();
+    Model* getModel();
 
-		QWidget* widget_;
-		Ui::MainWindowWebView mainwindow;
+    QWidget* widget_;
+    Ui::MainWindowWebView mainwindow;
 
-		// ROS Stuff
-		ros::NodeHandle n;
-		ros::AsyncSpinner* spinner;
+    // ROS Stuff
+    ros::NodeHandle n;
+    ros::AsyncSpinner* spinner;
 
-		ros::Subscriber spawnAgentSub;
-		ros::Subscriber actionSub;
+    ros::Subscriber spawnAgentSub;
+    ros::Subscriber spawnMultiAgentSub;
+    ros::Subscriber actionSub;
+    ros::Subscriber loadWorldSub;
 
-		ros::Publisher spawnAgentPub;
-		ros::Publisher actionPub;
+    ros::Publisher spawnAgentPub;
+    ros::Publisher spawnMultiAgentPub;
+    ros::Publisher actionPub;
 
-	public slots:
-		/**
-		 * Exposes the simulator to JavaScript
-		 */
-		void addSimToJS();
+public slots:
+    /**
+     * Exposes the simulator to JavaScript
+     */
+    void addSimToJS();
 
-		/**
-		 * Redraw playground
-		 */
-		void callUpdatePlayground();
+    /**
+     * Redraw playground
+     */
+    void callUpdatePlayground();
 
-	private:
-		Model* model;
-		bool ready;
-		int turnIndex;
-		std::vector<int> turns;
+private:
+    Model* model;
+    bool ready;
+    int turnIndex;
+    std::vector<int> turns;
+    std::mutex loadWorldMtx;
+    std::mutex spawnAgentsMtx;
+    std::vector<std::set<int>> processedCombinations;
+    std::vector<std::string> loadedWorlds;
 
-		/**
-		 * Colors playground according to model
-		 */
-		void updatePlayground();
+    /**
+     * Colors playground according to model
+     */
+    void updatePlayground();
 
-		/**
-		 * Handles incoming spawn request
-		 */
-		void onSpawnAgent(InitialPoseRequestPtr msg);
+    /**
+     * Updates playground the first time when a load world request is sent
+     */
+    Q_INVOKABLE void updatePlaygroundFromRequest();
 
-		/**
-		 * Handles incoming action request and calls corresponding handle method
-		 */
-		void onAction(ActionRequestPtr msg);
+    /**
+     * Handles incoming spawn request
+     */
+    void onSpawnAgent(InitialPoseRequestPtr msg);
 
-		/**
-		 * Places agent randomly on a free field
-		 * @param agentId int positive id for agent
-		 */
-		void placeAgent(int agentId, bool hasArrow);
+    /**
+    * Handles incoming spawn request for multiple agents
+    */
+    void onSpawnMultipleAgents(MultiInitialPoseRequestPtr msg);
 
-		/**
-		 * Enables steering of already placed wumpus
-		 * @param wumpusId int negative id for wumpus
-		 */
-		void possessWumpus(int wumpusId);
+    /**
+     * Sends message when spawning multiple agents was unsuccessful
+     */
+     void sendMultiSpawnUnsuccessfulMsg();
 
-		/**
-		 * Delegates mesg to corresponding method
-		 */
-		void handleAction(ActionRequestPtr msg);
+    /**
+     * Handles incoming action request and calls corresponding handle method
+     */
+    void onAction(ActionRequestPtr msg);
 
-		/**
-		 * Call method according to given message
-		 */
-		void handleWumpusAction(ActionRequestPtr msg);
+    void onLoadWorld(LoadWorldRequestPtr msg);
 
-		/**
-		 * Turns the agent right by 90 degrees
-		 */
-		void handleTurnRight(ActionRequestPtr msg);
+    /**
+     * Places agent randomly on a free field
+     * @param agentId int positive id for agent
+     */
+    void placeAgent(int agentId, bool hasArrow);
 
-		/**
-		 * Turns the agent left by 90 degrees
-		 */
-		void handleTurnLeft(ActionRequestPtr msg);
+    /**
+     * Places agent randomly on a free field
+     * @param agentId int positive id for agent
+     */
+    void placeAgentOnTile(int agentId, bool hasArrow, int x, int y);
 
-		/**
-		 * Shoots an arrow in the direction of the agent's current heading
-		 */
-		void handleShoot(ActionRequestPtr msg);
+    /**
+     * Enables steering of already placed wumpus
+     * @param wumpusId int negative id for wumpus
+     */
+    void possessWumpus(int wumpusId);
 
-		/**
-		 * Handles the request to pick up gold
-		 */
-		void handlePickUpGold(ActionRequestPtr msg);
+    /**
+     * Delegates mesg to corresponding method
+     */
+    void handleAction(ActionRequestPtr msg);
 
-		/**
-		 * Handles the request to leave the playground.
-		 * Agent can only leave the playground if they
-		 * have collected the gold and are standing on
-		 * their starting position
-		 */
-		void handleExit(ActionRequestPtr msg);
+    /**
+     * Call method according to given message
+     */
+    void handleWumpusAction(ActionRequestPtr msg);
 
-		/**
-		 * Moves the agent reminding the outer walls
-		 */
-		void handleMove(ActionRequestPtr msg);
+    /**
+     * Turns the agent right by 90 degrees
+     */
+    void handleTurnRight(ActionRequestPtr msg);
 
-		/*
-		 * Informs the next agent or wumpus
-		 */
-		void handleNextTurn();
+    /**
+     * Turns the agent left by 90 degrees
+     */
+    void handleTurnLeft(ActionRequestPtr msg);
 
-		/**
-		 * Informs agent about breeze, stench and glitter
-		 */
-		void handlePerception(ActionResponse& msg, std::shared_ptr<GroundTile> tile);
+    /**
+     * Shoots an arrow in the direction of the agent's current heading
+     */
+    void handleShoot(ActionRequestPtr msg);
 
-		/**
-		 * Shoots an arrow to the left killing all wumpus on its way
-		 */
-		void handleShootLeft(ActionResponse& msg, std::shared_ptr<Agent> agent);
+    /**
+     * Handles the request to pick up gold
+     */
+    void handlePickUpGold(ActionRequestPtr msg);
 
-		/**
-		 * Shoots an arrow to the right killing all wumpus on its way
-		 */
-		void handleShootRight(ActionResponse& msg, std::shared_ptr<Agent> agent);
+    /**
+     * Handles the request to leave the playground.
+     * Agent can only leave the playground if they
+     * have collected the gold and are standing on
+     * their starting position
+     */
+    void handleExit(ActionRequestPtr msg);
 
-		/**
-		 * Shoots an arrow upwards killing all wumpus on its way
-		 */
-		void handleShootUp(ActionResponse& msg, std::shared_ptr<Agent> agent);
+    /**
+     * Moves the agent reminding the outer walls
+     */
+    void handleMove(ActionRequestPtr msg);
 
-		/**
-		 * Shoots an arrow downwards killing all wumpus on its way
-		 */
-		void handleShootDown(ActionResponse& msg, std::shared_ptr<Agent> agent);
+    /*
+     * Informs the next agent or wumpus
+     */
+    void handleNextTurn();
 
-		/**
-		 * Kills wumpus and removes it from turns
-		 */
-		void killWumpus(std::shared_ptr<Wumpus> wumpus);
+    /**
+     * Informs agent about breeze, stench and glitter
+     */
+    void handlePerception(ActionResponse& msg, std::shared_ptr<GroundTile> tile);
 
-		/**
-		 * Kills agent and removes it from turns
-		 */
-		void killAgent(std::shared_ptr<Agent> agent);
+    /**
+     * Shoots an arrow to the left killing all wumpus on its way
+     */
+    void handleShootLeft(ActionResponse& msg, std::shared_ptr<Agent> agent);
 
-		/**
-		 * Advances turn index
-		 */
-		void getNext();
+    /**
+     * Shoots an arrow to the right killing all wumpus on its way
+     */
+    void handleShootRight(ActionResponse& msg, std::shared_ptr<Agent> agent);
 
-	signals :
-		/**
-		 * Initiates redraw of playground
-		 */
-		void modelChanged();
-	};
+    /**
+     * Shoots an arrow upwards killing all wumpus on its way
+     */
+    void handleShootUp(ActionResponse& msg, std::shared_ptr<Agent> agent);
+
+    /**
+     * Shoots an arrow downwards killing all wumpus on its way
+     */
+    void handleShootDown(ActionResponse& msg, std::shared_ptr<Agent> agent);
+
+    /**
+     * Kills wumpus and removes it from turns
+     */
+    void killWumpus(std::shared_ptr<Wumpus> wumpus);
+
+    /**
+     * Kills agent and removes it from turns
+     */
+    void killAgent(std::shared_ptr<Agent> agent);
+
+    /**
+     * Advances turn index
+     */
+    void getNext();
+
+    /**
+     * Sets references in model for spawning an agent and sends SpawnAgentResponse message
+     */
+    void spawnAgentOnTile(int agentId, bool hasArrow, int x, int y, InitialPoseResponse& msg, int z, std::shared_ptr<GroundTile>& tile);
+
+signals:
+    /**
+     * Initiates redraw of playground
+     */
+    void modelChanged();
+};
 }

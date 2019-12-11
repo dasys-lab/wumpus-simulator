@@ -26,10 +26,14 @@ endif (${CMAKE_EXTRA_GENERATOR} MATCHES "Eclipse CDT4")
 
 add_message_files(
   FILES
+  AgentPosition.msg
+  MultiInitialPoseRequest.msg
+  MultiInitialPoseResponse.msg
   InitialPoseRequest.msg
   ActionRequest.msg
   ActionResponse.msg
   InitialPoseResponse.msg
+		LoadWorldRequest.msg
 )
 
 catkin_python_setup()
@@ -116,6 +120,8 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${Qt5Widgets_location}
 
 
 add_dependencies(${PROJECT_NAME} wumpus_simulator_generate_messages_cpp)
+
+# add_executable(wumpus_simulator_exec src/wumpus_simulator/WumpusSimulator.cpp)
 
 find_package(class_loader)
 class_loader_hide_library_symbols(${PROJECT_NAME})

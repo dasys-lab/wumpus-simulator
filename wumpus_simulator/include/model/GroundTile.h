@@ -25,10 +25,13 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 namespace wumpus_simulator
 {
 	class Movable;
+	class Agent;
+	class Wumpus;
 	/**
 	 * Basic element of the field
 	 */
@@ -45,9 +48,13 @@ namespace wumpus_simulator
 		void setTrap(bool value);
 		void setStench(bool value);
 		void setGold(bool value);
-		std::shared_ptr<Movable> getMovable();
-		void setMovable(std::shared_ptr<Movable> movable);
+		std::vector<std::shared_ptr<Movable>> getMovables();
+		void addMovable(std::shared_ptr<Movable> movable);
+		void removeMovable(std::shared_ptr<Movable> movable);
 		void setBreeze(bool hasBreeze);
+
+		std::vector<std::shared_ptr<Wumpus>> getWumpi();
+		std::vector<std::shared_ptr<Agent>> getAgents();
 
 		int getStartAgentID();
 		bool getTrap();
@@ -58,6 +65,7 @@ namespace wumpus_simulator
 		bool getStartpoint();
 		bool hasWumpus();
 
+
 	private :
 		int x;
 		int y;
@@ -67,7 +75,9 @@ namespace wumpus_simulator
 		bool hasStench;
 		bool hasBreeze;
 		bool isStartpoint;
-		std::shared_ptr<Movable> movable;
+		std::vector<std::shared_ptr<Agent>> agents;
+		std::vector<std::shared_ptr<Wumpus>> wumpi;
+		std::vector<std::shared_ptr<Movable>> movables;
 	};
 
 } /* namespace wumpus_simulator */
