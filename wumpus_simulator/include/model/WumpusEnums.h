@@ -25,6 +25,7 @@
 #pragma once
 
 /**
+/**
  * Collection of all enums used in the simulator
  */
 class WumpusEnums

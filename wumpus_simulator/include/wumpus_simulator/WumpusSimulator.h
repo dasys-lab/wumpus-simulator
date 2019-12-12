@@ -29,6 +29,9 @@
 #include <wumpus_simulator/ActionResponse.h>
 #include <wumpus_simulator/InitialPoseRequest.h>
 #include <wumpus_simulator/InitialPoseResponse.h>
+#include <wumpus_simulator/MultiInitialPoseRequest.h>
+#include <wumpus_simulator/MultiInitialPoseResponse.h>
+#include <wumpus_simulator/LoadWorldRequest.h>
 
 #include <QDialog>
 #include <QTimer>
@@ -42,6 +45,7 @@
 #include <rqt_gui_cpp/plugin.h>
 
 #include <iostream>
+#include <mutex>
 
 namespace wumpus_simulator
 {
@@ -85,7 +89,7 @@ public:
     /**
      * Loads a wwf file from JavaScript
      */
-    Q_INVOKABLE void loadWorld();
+    Q_INVOKABLE void loadWorld(const std::string& worldPath);
 
     Model* getModel();
 
@@ -97,9 +101,12 @@ public:
     ros::AsyncSpinner* spinner;
 
     ros::Subscriber spawnAgentSub;
+    ros::Subscriber spawnMultiAgentSub;
     ros::Subscriber actionSub;
+    ros::Subscriber loadWorldSub;
 
     ros::Publisher spawnAgentPub;
+    ros::Publisher spawnMultiAgentPub;
     ros::Publisher actionPub;
 
 public slots:
@@ -118,6 +125,10 @@ private:
     bool ready;
     int turnIndex;
     std::vector<int> turns;
+    std::mutex loadWorldMtx;
+    std::mutex spawnAgentsMtx;
+    std::vector<std::set<int>> processedCombinations;
+    std::vector<std::string> loadedWorlds;
 
     /**
      * Colors playground according to model
@@ -125,20 +136,43 @@ private:
     void updatePlayground();
 
     /**
+     * Updates playground the first time when a load world request is sent
+     */
+    Q_INVOKABLE void updatePlaygroundFromRequest();
+
+    /**
      * Handles incoming spawn request
      */
     void onSpawnAgent(InitialPoseRequestPtr msg);
+
+    /**
+    * Handles incoming spawn request for multiple agents
+    */
+    void onSpawnMultipleAgents(MultiInitialPoseRequestPtr msg);
+
+    /**
+     * Sends message when spawning multiple agents was unsuccessful
+     */
+     void sendMultiSpawnUnsuccessfulMsg();
 
     /**
      * Handles incoming action request and calls corresponding handle method
      */
     void onAction(ActionRequestPtr msg);
 
+    void onLoadWorld(LoadWorldRequestPtr msg);
+
     /**
      * Places agent randomly on a free field
      * @param agentId int positive id for agent
      */
     void placeAgent(int agentId, bool hasArrow);
+
+    /**
+     * Places agent randomly on a free field
+     * @param agentId int positive id for agent
+     */
+    void placeAgentOnTile(int agentId, bool hasArrow, int x, int y);
 
     /**
      * Enables steering of already placed wumpus
@@ -234,10 +268,15 @@ private:
      */
     void getNext();
 
+    /**
+     * Sets references in model for spawning an agent and sends SpawnAgentResponse message
+     */
+    void spawnAgentOnTile(int agentId, bool hasArrow, int x, int y, InitialPoseResponse& msg, int z, std::shared_ptr<GroundTile>& tile);
+
 signals:
     /**
      * Initiates redraw of playground
      */
     void modelChanged();
 };
-} // namespace wumpus_simulator
+}

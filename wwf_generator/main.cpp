@@ -7,6 +7,9 @@
 
 int getBoundedRand(int minValue, int maxValue)
 {
+    if((maxValue - minValue) == 0) {
+        return maxValue;
+    }
     return ((rand() % (maxValue - minValue)) + minValue);
 }
 

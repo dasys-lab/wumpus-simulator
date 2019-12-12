@@ -83,7 +83,7 @@ void Model::init(bool agentHasArrow, int wumpusCount, int trapCount, int playGro
             i--;
         } else {
             auto tmp = std::make_shared<Wumpus>(playGround.at(randx).at(randy));
-            playGround.at(randx).at(randy)->setMovable(tmp);
+            playGround.at(randx).at(randy)->addMovable(tmp);
             setStench(randx, randy);
             this->movables.push_back(tmp);
         }
@@ -102,14 +102,18 @@ void Model::init(bool agentHasArrow, int wumpusCount, int trapCount, int playGro
         }
     }
     std::cout << "Gold placed" << std::endl;
-    for (int i = 0; i < this->playGround.size(); i++) {
-        for (int j = 0; j < this->playGround.size(); j++) {
-            if (this->playGround.at(i).at(j)->hasMovable() || this->playGround.at(i).at(j)->getTrap()) {
-                this->playGround.at(i).at(j)->setBreeze(false);
-                this->playGround.at(i).at(j)->setStench(false);
-            }
-        }
-    }
+    // evil!!!
+    //		for (int i = 0; i < this->playGround.size(); i++)
+    //		{
+    //			for (int j = 0; j < this->playGround.size(); j++)
+    //			{
+    //				if (this->playGround.at(i).at(j)->hasMovable() || this->playGround.at(i).at(j)->getTrap())
+    //				{
+    //					this->playGround.at(i).at(j)->setBreeze(false);
+    //					this->playGround.at(i).at(j)->setStench(false);
+    //				}
+    //			}
+    //		}
     std::cout << "Model: Finished initiating the playground!" << std::endl;
 }
 
@@ -122,7 +126,9 @@ Model::Model()
     this->wumpusCount = -1;
 }
 
-Model::~Model() {}
+Model::~Model()
+{
+}
 
 void Model::setBreeze(int x, int y)
 {
@@ -174,7 +180,7 @@ std::vector<std::vector<std::shared_ptr<GroundTile>>> Model::getPlayGround()
 void Model::exit(std::shared_ptr<Agent> agent)
 {
     this->movables.erase(remove(this->movables.begin(), this->movables.end(), agent), this->movables.end());
-    agent->getTile()->setMovable(nullptr);
+    agent->getTile()->removeMovable(agent);
     agent->setTile(nullptr);
     for (auto tileVec : this->playGround) {
         for (auto tile : tileVec) {
@@ -252,18 +258,22 @@ QJsonObject Model::toJSON()
             ground["hasBreeze"] = playGround.at(i).at(j)->getBreeze();
             ground["isStartpoint"] = playGround.at(i).at(j)->getStartpoint();
             ground["startAgentID"] = playGround.at(i).at(j)->getStartAgentID();
-            if (playGround.at(i).at(j)->getMovable() != nullptr) {
-                ground["movableType"] = playGround.at(i).at(j)->getMovable()->getType();
-                auto tmp = std::dynamic_pointer_cast<Agent>(playGround.at(i).at(j)->getMovable());
-                if (tmp != nullptr) {
-                    ground["agentHeading"] = tmp->getHeading();
-                    ground["agentId"] = tmp->getId();
-                    ground["agentHasGold"] = tmp->getHasGold();
-                    ground["agentHasArrow"] = tmp->hasArrow();
-                } else {
-                    ground["agentHeading"] = "unknown";
-                    ground["agantId"] = 0;
+            if (!playGround.at(i).at(j)->getMovables().empty()) {
+                for (auto movable : playGround.at(i).at(j)->getMovables()) {
+
+                    ground["movableType"] = movable->getType();
+                    auto tmp = std::dynamic_pointer_cast<Agent>(movable);
+                    if (tmp != nullptr) {
+                        ground["agentHeading"] = tmp->getHeading();
+                        ground["agentId"] = tmp->getId();
+                        ground["agentHasGold"] = tmp->getHasGold();
+                        ground["agentHasArrow"] = tmp->hasArrow();
+                    } else {
+                        ground["agentHeading"] = "unknown";
+                        ground["agantId"] = 0;
+                    }
                 }
+
             } else {
                 ground["movableType"] = "unknown";
                 ground["agentHeading"] = "unknown";
@@ -315,7 +325,7 @@ void Model::fromJSON(QJsonObject root)
         if (tile["movableType"].toString().contains("wumpus")) {
             auto wumpus = std::make_shared<Wumpus>(this->playGround.at(x).at(y));
             this->movables.push_back(wumpus);
-            groundTile->setMovable(wumpus);
+            groundTile->addMovable(wumpus);
         } else if (tile["movableType"].toString().contains("agent")) {
             auto agent = std::make_shared<Agent>(this->playGround.at(x).at(y));
             agent->setHeading((WumpusEnums::heading) tile["agentHeading"].toInt());
@@ -323,7 +333,7 @@ void Model::fromJSON(QJsonObject root)
             agent->setHasGold(tile["agentHasGold"].toBool());
             agent->setArrow(tile["agentHasArrow"].toBool());
             this->movables.push_back(agent);
-            groundTile->setMovable(agent);
+            groundTile->addMovable(agent);
         }
     }
 }
@@ -354,7 +364,7 @@ std::shared_ptr<Wumpus> Model::getWumpusByID(int id)
 
 void Model::removeAgent(std::shared_ptr<Agent> agent)
 {
-    agent->getTile()->setMovable(nullptr);
+    agent->getTile()->removeMovable(agent);
     agent->setTile(nullptr);
 }
 
@@ -380,7 +390,7 @@ void Model::removeWumpus(std::shared_ptr<Wumpus> wumpus)
     if (y < playGroundSize - 1) {
         playGround.at(x).at(y + 1)->setStench(false);
     }
-    wumpus->getTile()->setMovable(nullptr);
+    wumpus->getTile()->addMovable(nullptr);
 }
 
 } /* namespace wumpus_simulator */

@@ -25,49 +25,59 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 namespace wumpus_simulator
 {
-class Movable;
-/**
- * Basic element of the field
- */
-class GroundTile
-{
+	class Movable;
+	class Agent;
+	class Wumpus;
+	/**
+	 * Basic element of the field
+	 */
+	class GroundTile
+	{
 
-public:
-    GroundTile(int x, int y);
-    virtual ~GroundTile();
-    int getX();
-    int getY();
-    void setStartAgentID(int value);
-    void setStartpoint(bool value);
-    void setTrap(bool value);
-    void setStench(bool value);
-    void setGold(bool value);
-    std::shared_ptr<Movable> getMovable();
-    void setMovable(std::shared_ptr<Movable> movable);
-    void setBreeze(bool hasBreeze);
+	public:
+		GroundTile(int x, int y);
+		virtual ~GroundTile();
+		int getX();
+		int getY();
+		void setStartAgentID(int value);
+		void setStartpoint(bool value);
+		void setTrap(bool value);
+		void setStench(bool value);
+		void setGold(bool value);
+		std::vector<std::shared_ptr<Movable>> getMovables();
+		void addMovable(std::shared_ptr<Movable> movable);
+		void removeMovable(std::shared_ptr<Movable> movable);
+		void setBreeze(bool hasBreeze);
 
-    int getStartAgentID();
-    bool getTrap();
-    bool getGold();
-    bool getStench();
-    bool hasMovable();
-    bool getBreeze();
-    bool getStartpoint();
-    bool hasWumpus();
+		std::vector<std::shared_ptr<Wumpus>> getWumpi();
+		std::vector<std::shared_ptr<Agent>> getAgents();
 
-private:
-    int x;
-    int y;
-    int startAgentID;
-    bool hasTrap;
-    bool hasGold;
-    bool hasStench;
-    bool hasBreeze;
-    bool isStartpoint;
-    std::shared_ptr<Movable> movable;
-};
+		int getStartAgentID();
+		bool getTrap();
+		bool getGold();
+		bool getStench();
+		bool hasMovable();
+		bool getBreeze();
+		bool getStartpoint();
+		bool hasWumpus();
+
+
+	private :
+		int x;
+		int y;
+		int startAgentID;
+		bool hasTrap;
+		bool hasGold;
+		bool hasStench;
+		bool hasBreeze;
+		bool isStartpoint;
+		std::vector<std::shared_ptr<Agent>> agents;
+		std::vector<std::shared_ptr<Wumpus>> wumpi;
+		std::vector<std::shared_ptr<Movable>> movables;
+	};
 
 } /* namespace wumpus_simulator */

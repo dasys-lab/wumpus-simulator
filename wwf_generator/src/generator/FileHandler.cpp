@@ -33,14 +33,17 @@ std::string FileHandler::extractFilename(bool withAgents)
     for (int i = 0; i < model->getPlayGroundSize(); ++i) {
         for (int j = 0; j < model->getPlayGroundSize(); ++j) {
             auto tile = model->getTile(i, j);
-            if (tile->getMovable()) {
-                if (tile->getMovable()->getType().compare(QString::fromStdString("wumpus")) == 0) {
+            //            if (!tile->getMovables().empty()) {
+            for (const auto& mov : tile->getMovables()) {
+
+                if (mov->getType().compare(QString::fromStdString("wumpus")) == 0) {
                     wumpusPositions.push_back(std::make_pair(i, j));
                 }
-                if (tile->getMovable()->getType().compare(QString::fromStdString("agent")) == 0) {
+                if (mov->getType().compare(QString::fromStdString("agent")) == 0) {
                     agentPositions.push_back(std::make_pair(i, j));
                 }
             }
+            //            }
             if (tile->getTrap()) {
                 trapPositions.push_back(std::make_pair(i, j));
             }
@@ -79,17 +82,19 @@ std::string FileHandler::extractFilename(bool withAgents)
 
     ss << "g" << goldPosition.first << "-" << goldPosition.second;
 
-    if (withAgents) {
-        ss << "a";
-        for (int i = 0; i < agentPositions.size(); ++i) {
-            auto aPos = agentPositions.at(i);
-            auto agent = std::dynamic_pointer_cast<wumpus_simulator::Agent>(model->getTile(aPos.first, aPos.second)->getMovable());
-            ss << aPos.first << "-" << aPos.second << "-" << agent->hasArrow() << "-" << agent->getHasGold();
 
-            if (i != agentPositions.size() - 1) {
-                ss << "_";
-            }
-        }
+    if (withAgents) {
+        std::cerr << "WWFGen FileHnadler: WithAgents not implemented anymore!!!" << std::endl;
+//        ss << "a";
+//        for (int i = 0; i < agentPositions.size(); ++i) {
+//            auto aPos = agentPositions.at(i);
+//            auto agent = std::dynamic_pointer_cast<wumpus_simulator::Agent>(model->getTile(aPos.first, aPos.second)->getMovable());
+//            ss << aPos.first << "-" << aPos.second << "-" << agent->hasArrow() << "-" << agent->getHasGold();
+//
+//            if (i != agentPositions.size() - 1) {
+//                ss << "_";
+//            }
+//        }
     }
 
     this->filename = ss.str();
