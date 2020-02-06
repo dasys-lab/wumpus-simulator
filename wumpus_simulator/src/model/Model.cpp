@@ -326,6 +326,13 @@ void Model::fromJSON(QJsonObject root)
             auto wumpus = std::make_shared<Wumpus>(this->playGround.at(x).at(y));
             this->movables.push_back(wumpus);
             groundTile->addMovable(wumpus);
+            std::cout << "TILE: " << groundTile->getX() << ", " << groundTile->getY() << " HAS MOVABLES / WUMPI: " << std::endl;
+            for(auto mov : groundTile->getMovables()) {
+                std::cout << mov->getId() << std::endl;
+            }
+            for(auto mov : groundTile->getWumpi()) {
+                std::cout << mov->getId() << std::endl;
+            }
         } else if (tile["movableType"].toString().contains("agent")) {
             auto agent = std::make_shared<Agent>(this->playGround.at(x).at(y));
             agent->setHeading((WumpusEnums::heading) tile["agentHeading"].toInt());
@@ -390,7 +397,7 @@ void Model::removeWumpus(std::shared_ptr<Wumpus> wumpus)
     if (y < playGroundSize - 1) {
         playGround.at(x).at(y + 1)->setStench(false);
     }
-    wumpus->getTile()->addMovable(nullptr);
+    wumpus->getTile()->removeMovable(wumpus);
 }
 
 } /* namespace wumpus_simulator */

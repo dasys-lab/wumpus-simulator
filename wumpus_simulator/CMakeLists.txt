@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(wumpus_simulator)
 
-find_package(catkin REQUIRED COMPONENTS rqt_gui rqt_gui_cpp roscpp message_generation qt_gui)
+find_package(catkin REQUIRED COMPONENTS rqt_gui rqt_gui_cpp roscpp message_generation qt_gui nonstd)
 
 find_package(Qt5Core REQUIRED)
 get_target_property(Qt5Core_location Qt5::Core LOCATION)

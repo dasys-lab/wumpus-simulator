@@ -24,14 +24,17 @@
 
 #pragma once
 
+#include <WumpusEnums.h>
 #include <ui_mainwindow_webview.h>
 #include <wumpus_simulator/ActionRequest.h>
 #include <wumpus_simulator/ActionResponse.h>
 #include <wumpus_simulator/InitialPoseRequest.h>
 #include <wumpus_simulator/InitialPoseResponse.h>
+#include <wumpus_simulator/LoadWorldRequest.h>
 #include <wumpus_simulator/MultiInitialPoseRequest.h>
 #include <wumpus_simulator/MultiInitialPoseResponse.h>
-#include <wumpus_simulator/LoadWorldRequest.h>
+
+#include <nonstd/optional.hpp>
 
 #include <QDialog>
 #include <QTimer>
@@ -91,6 +94,8 @@ public:
      */
     Q_INVOKABLE void loadWorld(const std::string& worldPath);
 
+    Q_INVOKABLE void loadLastWorld();
+
     Model* getModel();
 
     QWidget* widget_;
@@ -129,6 +134,7 @@ private:
     std::mutex spawnAgentsMtx;
     std::vector<std::set<int>> processedCombinations;
     std::vector<std::string> loadedWorlds;
+    QJsonObject lastLoadedWorld;
 
     /**
      * Colors playground according to model
@@ -153,7 +159,7 @@ private:
     /**
      * Sends message when spawning multiple agents was unsuccessful
      */
-     void sendMultiSpawnUnsuccessfulMsg();
+    void sendMultiSpawnUnsuccessfulMsg();
 
     /**
      * Handles incoming action request and calls corresponding handle method
@@ -267,6 +273,75 @@ private:
      * Advances turn index
      */
     void getNext();
+
+//
+//    /**
+//     * Shoots an arrow in the direction of the agent's current heading
+//     */
+//    WumpusEnums::responses handleShoot(ActionRequestPtr msg);
+//
+//    /**
+//     * Handles the request to pick up gold
+//     */
+//    WumpusEnums::responses handlePickUpGold(ActionRequestPtr msg);
+//
+//    /**
+//     * Handles the request to leave the playground.
+//     * Agent can only leave the playground if they
+//     * have collected the gold and are standing on
+//     * their starting position
+//     */
+//    WumpusEnums::responses handleExit(ActionRequestPtr msg);
+//
+//    /**
+//     * Moves the agent reminding the outer walls
+//     */
+//    nonstd::optional<WumpusEnums::responses> handleMove(ActionRequestPtr msg);
+//
+//    /*
+//     * Informs the next agent or wumpus
+//     */
+//    void handleNextTurn(ActionRequestPtr& msg, ActionResponse& response);
+//
+//    /**
+//     * Informs agent about breeze, stench and glitter
+//     */
+//    void handlePerception(ActionResponse& msg, std::shared_ptr<GroundTile> tile);
+//
+//    /**
+//     * Shoots an arrow to the left killing all wumpus on its way
+//     */
+//    WumpusEnums::responses handleShootLeft(ActionResponse& msg, std::shared_ptr<Agent> agent);
+//
+//    /**
+//     * Shoots an arrow to the right killing all wumpus on its way
+//     */
+//    WumpusEnums::responses handleShootRight(ActionResponse& msg, std::shared_ptr<Agent> agent);
+//
+//    /**
+//     * Shoots an arrow upwards killing all wumpus on its way
+//     */
+//    WumpusEnums::responses handleShootUp(ActionResponse& msg, std::shared_ptr<Agent> agent);
+//
+//    /**
+//     * Shoots an arrow downwards killing all wumpus on its way
+//     */
+//    WumpusEnums::responses handleShootDown(ActionResponse& msg, std::shared_ptr<Agent> agent);
+//
+//    /**
+//     * Kills wumpus and removes it from turns
+//     */
+//    void killWumpus(std::shared_ptr<Wumpus> wumpus);
+//
+//    /**
+//     * Kills agent and removes it from turns
+//     */
+//    void killAgent(std::shared_ptr<Agent> agent);
+//
+//    /**
+//     * Advances turn index
+//     */
+//    void getNext();
 
     /**
      * Sets references in model for spawning an agent and sends SpawnAgentResponse message

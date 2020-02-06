@@ -20,12 +20,14 @@
   <build_depend>qt_gui</build_depend>
   <build_depend>rqt_gui</build_depend>
   <build_depend>rqt_gui_cpp</build_depend>
+  <build_depend>nonstd</build_depend>
 
   <run_depend>message_runtime</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>rqt_gui</run_depend>
   <run_depend>qt_gui</run_depend>
   <run_depend>rqt_gui_cpp</run_depend>
+  <run_depend>nonstd</run_depend>
   
   <export>
     <rqt_gui plugin="${prefix}/plugin.xml"/>

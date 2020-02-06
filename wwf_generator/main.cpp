@@ -79,8 +79,8 @@ int main(int argc, char* argv[])
     for (int i = 0; i < std::stoi(nWorlds); ++i) {
 
         playgroundSize = (playgroundString.empty() ? getBoundedRand(playgroundMin, playgroundMax) : std::stoi(playgroundString));
-        wumpusCount = (wumpusString.empty() ? getBoundedRand(wumpusMin, wumpusMax) : std::stoi(wumpusString));
-        trapCount = (trapString.empty() ? getBoundedRand(trapMin, trapMax) : std::stoi(trapString));
+        wumpusCount = (wumpusString.empty() ? getBoundedRand(wumpusMin, wumpusMax+1) : std::stoi(wumpusString));
+        trapCount = (trapString.empty() ? getBoundedRand(trapMin, trapMax+1) : std::stoi(trapString));
 
         std::cout << "generating "
                   << "model with playground size " << std::to_string(playgroundSize) << ", wumpus count is " << std::to_string(wumpusCount) << ", trapCount is "

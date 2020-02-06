@@ -36,7 +36,7 @@ public:
 	 */
 	enum actions
 	{
-		move, turnLeft, turnRight, shoot, pickUpGold, leave
+		move, turnLeft, turnRight, shoot, pickUpGold, leave, timeoutRequest
 	};
 
 	/**
